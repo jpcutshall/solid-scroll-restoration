@@ -21,7 +21,7 @@
     "preview": "vite preview",
     "test": "vitest run"
   },
-  "peerdependencies": {
+  "peerDependencies": {
     "solid-js": "^1.9.10"
   },
   "devDependencies": {
