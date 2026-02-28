@@ -1,5 +1,31 @@
 {
   "name": "solid-scroll-restoration",
+  "author": "Jacob Cutshall",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jpcutshall/solid-scroll-restoration.git"
+  },
+  "keywords": [
+    "solid",
+    "scroll",
+    "restoration",
+    "position",
+    "save",
+    "restore",
+    "storage",
+    "sessionStorage",
+    "localStorage",
+    "memory"
+  ],
+  "homepage": "https://github.com/jpcutshall/solid-scroll-restoration#readme",
+  "bugs": {
+    "url": "https://github.com/jpcutshall/solid-scroll-restoration/issues"
+  },
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/jpcutshall"
+  },
   "version": "0.1.1",
   "type": "module",
   "main": "./dist/index.cjs",
