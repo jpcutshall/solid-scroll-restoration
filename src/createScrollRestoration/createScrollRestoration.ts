@@ -89,13 +89,13 @@ export default function createScrollRestoration<E extends HTMLElement>(
 
     if (persist === "localStorage") {
       localStorage.setItem(
-        `scrollRestoration-${key}`,
-        JSON.stringify(currentScrollRestoration),
+        `scrollRestoration-${key()}`,
+        JSON.stringify(currentScrollRestoration()),
       );
     } else if (persist === "sessionStorage") {
       sessionStorage.setItem(
-        `scrollRestoration-${key}`,
-        JSON.stringify(currentScrollRestoration),
+        `scrollRestoration-${key()}`,
+        JSON.stringify(currentScrollRestoration()),
       );
     }
   });
