@@ -90,4 +90,73 @@ describe("createScrollRestoration", () => {
 
     expect(element.scrollTo).toHaveBeenCalledWith(0, 300);
   });
+
+  it("should handle null element gracefully", () => {
+    const [el] = createSignal<HTMLDivElement | null>(null);
+
+    // Should not throw when element is null
+    render(() => {
+      createScrollRestoration(el, keySignal, { debounceTime: 10 });
+      return null;
+    });
+  });
+
+  it("should debounce rapid scroll events", () => {
+    render(() => <TestComponent />);
+
+    // Fire multiple scroll events rapidly to trigger the clearTimeout branch
+    element.scrollTop = 50;
+    element.dispatchEvent(new Event("scroll"));
+
+    element.scrollTop = 100;
+    element.dispatchEvent(new Event("scroll"));
+
+    element.scrollTop = 150;
+    element.dispatchEvent(new Event("scroll"));
+
+    vi.advanceTimersByTime(20);
+
+    // Only the last scroll position should be saved
+    const { unmount } = render(() => <TestComponent />);
+    unmount();
+
+    render(() => <TestComponent />);
+    expect(element.scrollTo).toHaveBeenLastCalledWith(0, 150);
+  });
+
+  it("should restore scroll position from sessionStorage on fresh mount", () => {
+    // Pre-populate sessionStorage as if from a previous page load
+    sessionStorage.setItem(
+      "scrollRestoration-session-key",
+      JSON.stringify({ scrollTop: 500, scrollLeft: 25 })
+    );
+
+    render(() => <TestComponent persist="sessionStorage" overrideKey="session-key" />);
+
+    expect(element.scrollTo).toHaveBeenCalledWith(25, 500);
+  });
+
+  it("should restore scroll position from localStorage on fresh mount", () => {
+    // Pre-populate localStorage as if from a previous session
+    localStorage.setItem(
+      "scrollRestoration-local-key",
+      JSON.stringify({ scrollTop: 750, scrollLeft: 10 })
+    );
+
+    render(() => <TestComponent persist="localStorage" overrideKey="local-key" />);
+
+    expect(element.scrollTo).toHaveBeenCalledWith(10, 750);
+  });
+
+  it("should not persist when persist is false", () => {
+    render(() => <TestComponent />);
+
+    element.scrollTop = 100;
+    element.dispatchEvent(new Event("scroll"));
+    vi.advanceTimersByTime(20);
+
+    // Nothing should be in storage
+    expect(localStorage.getItem("scrollRestoration-test-key")).toBeNull();
+    expect(sessionStorage.getItem("scrollRestoration-test-key")).toBeNull();
+  });
 });
