@@ -4,7 +4,7 @@ type DebounceFunction = <T extends never[]>(
 ) => (...args: T) => void;
 
 export const debounce: DebounceFunction = (func, delay) => {
-  let timeoutId: number | null;
+  let timeoutId: ReturnType<typeof setTimeout> | null;
 
   return (...args) => {
     if (timeoutId) {
