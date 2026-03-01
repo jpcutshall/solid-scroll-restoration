@@ -1,5 +1,6 @@
 {
   "name": "solid-scroll-restoration",
+  "description": "A lightweight SolidJS primitive for saving and restoring scroll positions across route changes or page reloads",
   "author": "Jacob Cutshall",
   "license": "MIT",
   "repository": {
@@ -38,6 +39,7 @@
       "require": "./dist/index.cjs"
     }
   },
+  "sideEffects": false,
   "files": [
     "dist"
   ],
